@@ -1,5 +1,7 @@
 import { z } from 'zod';
 
+
+/*************************** CREATE USER **************************/
 export const createUserSchema = z.object({
     name: z
         .string()
@@ -28,5 +30,11 @@ export const createUserSchema = z.object({
     lunchEnd: z.string().datetime({ message: 'Fim do almoço inválido!' }),
     workEnd: z.string().datetime({ message: 'Horário de saída inválido!' })
 });
-
 export type CreateUserDTO = z.infer<typeof createUserSchema>;
+
+/*************************** AUTH USER **************************/
+export const authUserSchema = createUserSchema.pick({
+    email: true,
+    password: true
+});
+export type AuthUserDTO = z.infer<typeof authUserSchema>;

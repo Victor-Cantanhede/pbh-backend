@@ -1,13 +1,16 @@
 import 'dotenv/config';
 import Fastify from 'fastify';
+import fastifyCookie from '@fastify/cookie';
 import { userRoutes } from './routes/userRoutes';
 // import { timeLogRoutes } from './routes/timeLogRoutes';
+
+const PORT = process.env.PORT || 5000;
 
 const app = Fastify({
     logger: true
 });
 
-const PORT = process.env.PORT || 5000;
+app.register(fastifyCookie, { secret: process.env.JWT_SECRET as string || 'JWT_SECRET_DEV' });
 
 app.register(userRoutes);
 // app.register(timeLogRoutes);
