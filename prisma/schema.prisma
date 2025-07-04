@@ -27,6 +27,7 @@ model User {
   lunchEnd     DateTime
   workEnd      DateTime
   createdAt    DateTime     @default(now())
+  updatedAt    DateTime     @updatedAt
 
   timeLogs TimeLog[] // Relação com TimeLog
 
@@ -34,12 +35,17 @@ model User {
 }
 
 model TimeLog {
-  id       Int      @id @default(autoincrement())
-  userId   Int
-  entry    DateTime
-  lunchIn  DateTime
-  lunchOut DateTime
-  exit     DateTime
+  id          Int       @id @default(autoincrement())
+  userId      Int
+  entry       DateTime? // Opcional
+  lunchIn     DateTime? // Opcional
+  lunchOut    DateTime? // Opcional
+  exit        DateTime? // Opcional
+  balance     DateTime
+  observation String? // Opcional
+  date        DateTime  @default(now())
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
 
   user User @relation(fields: [userId], references: [id])
 
