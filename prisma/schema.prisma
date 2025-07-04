@@ -1,0 +1,47 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+  output   = "../src/generated/prisma"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+enum WorkSchedule {
+  SIX_ONE // 6x1
+  FIVE_TWO // 5x2
+}
+
+model User {
+  id           Int          @id @default(autoincrement())
+  name         String
+  email        String       @unique
+  password     String
+  workSchedule WorkSchedule
+  workStart    DateTime
+  lunchStart   DateTime
+  lunchEnd     DateTime
+  workEnd      DateTime
+  createdAt    DateTime     @default(now())
+
+  timeLogs TimeLog[] // Relação com TimeLog
+
+  @@map("Users")
+}
+
+model TimeLog {
+  id       Int      @id @default(autoincrement())
+  userId   Int
+  entry    DateTime
+  lunchIn  DateTime
+  lunchOut DateTime
+  exit     DateTime
+
+  user User @relation(fields: [userId], references: [id])
+
+  @@map("TimeLogs")
+}
